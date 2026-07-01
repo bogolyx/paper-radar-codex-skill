@@ -134,6 +134,8 @@ HEAVY_LLM_MODEL=...
 MINERU_API_BASE=https://mineru.net
 MINERU_API_KEY=...
 TZ=Asia/Shanghai
+
+IEEE_API_KEY=...
 ```
 
 Optional EZproxy credentials:
@@ -144,6 +146,46 @@ HKU_LIBRARY_PIN=...
 ```
 
 Never print real API keys or credentials in final answers. Refer to them by variable name.
+
+## IEEE Xplore API
+
+Use the IEEE Xplore Metadata API for IEEE sources that may block RSS automation, especially:
+
+- `tmi`: IEEE Transactions on Medical Imaging
+- `tip`: IEEE Transactions on Image Processing
+- `tpami`: IEEE Transactions on Pattern Analysis and Machine Intelligence
+- `jbhi`: IEEE Journal of Biomedical and Health Informatics
+
+Store the real key only in the local `.env`:
+
+```dotenv
+IEEE_API_KEY=...
+```
+
+Use `config.yaml` placeholders and per-source metadata:
+
+```yaml
+journals:
+  ieee:
+    api_key: "${IEEE_API_KEY}"
+    api_base: "https://ieeexploreapi.ieee.org/api/v1/search/articles"
+    max_records_per_journal: 30
+    fallback_to_rss: true
+  sources:
+    - name: "IEEE Transactions on Medical Imaging"
+      key: "tmi"
+      source_api: "ieee"
+      publication_number: "42"
+      rss_url: "https://ieeexplore.ieee.org/rss/TOC42.XML"
+      enabled: true
+```
+
+Safety rules:
+
+- Do not commit `.env`.
+- Do not paste or print the real key in chat output, logs, reports, or skill files.
+- If the key appears in a public place, advise the user to revoke it and create a new one.
+- If `IEEE_API_KEY` is missing, PaperRadar may fall back to RSS when `fallback_to_rss: true`, but IEEE RSS may return access errors such as 418 or timeouts.
 
 ## LLM and MinerU Settings
 

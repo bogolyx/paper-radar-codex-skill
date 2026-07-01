@@ -37,6 +37,8 @@ Use `preprints` for arXiv, bioRxiv, and medRxiv. Use `journals` for publisher fe
 
 When enabling sources, check whether the project already supports the source key. If a requested journal is not in the existing config or fetcher code, explain that adding it may require code changes rather than only config changes.
 
+For IEEE Xplore sources such as TMI, TIP, TPAMI, and JBHI, prefer the IEEE Xplore Metadata API over RSS. Keep the real key in the project's local `.env` as `IEEE_API_KEY`; never write real keys into the skill, `config.yaml`, examples, logs, reports, or final answers.
+
 ### Run PaperRadar
 
 For Docker usage, prefer the repository instructions:
